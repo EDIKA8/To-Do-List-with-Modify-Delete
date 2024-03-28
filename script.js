@@ -388,47 +388,50 @@
 //   container.style.backgroundColor = '#ff6347';
 // }
 
-let tasks = []; // To Do List
+let tasks = []; // To Do List HW
 
-    function addTask() {
-        const taskInput = document.getElementById("taskInput");
-        const task = taskInput.value.trim();
-        if (task !== "") {
-            tasks.push(task);
-            displayTasks();
-            taskInput.value = "";
-        }
+function addTask() {
+    const taskInput = document.getElementById("taskInput");
+    const task = taskInput.value.trim();
+    if (task !== "") {
+        tasks.push(task);
+        displayTasks();
+        taskInput.value = "";
     }
+}
 
-    function modifyTask(index) {
-        const newTask = prompt("ჩაწერეთ ახალი დავალება:");
-        if (newTask !== null && newTask.trim() !== "") {
-            tasks[index] = newTask.trim();
-            displayTasks();
-        }
-    }
-
-    function deleteTask(index) {
-        tasks.splice(index, 1);
+function editTask(index) {
+    const newTask = prompt("Enter the new task:");
+    if (newTask !== null && newTask.trim() !== "") {
+        tasks[index] = newTask.trim();
         displayTasks();
     }
+}
 
-    function displayTasks() {
-        const taskList = document.getElementById("taskList");
-        taskList.innerHTML = "";
-        tasks.forEach((task, index) => {
-            const li = document.createElement("li");
-            li.textContent = task;
-            const modifyBtn = document.createElement("button");
-            modifyBtn.textContent = "მოდიფიცირება";
-            modifyBtn.onclick = () => modifyTask(index);
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "წაშლა";
-            deleteBtn.onclick = () => deleteTask(index);
-            li.appendChild(modifyBtn);
-            li.appendChild(deleteBtn);
-            taskList.appendChild(li);
-        });
-    }
-
+function deleteTask(index) {
+    tasks.splice(index, 1);
     displayTasks();
+}
+
+function displayTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+    tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        li.textContent = task;
+        const modifyBtn = createButton("Edit", () => editTask(index));
+        const deleteBtn = createButton("Delete", () => deleteTask(index));
+        li.appendChild(modifyBtn);
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+    });
+}
+
+function createButton(text, onClick) {
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.addEventListener("click", onClick);
+    return button;
+}
+
+displayTasks();
